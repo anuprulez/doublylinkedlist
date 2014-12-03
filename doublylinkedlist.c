@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <stdlib.h> 
-#include <malloc.h>
 
 typedef struct node_type
 {
@@ -11,6 +10,7 @@ typedef struct node_type
    	struct node_type *next;
    	struct node_type *prev;
 } node;
+
 typedef node *list; 
 list head, prev_node, current;
 
@@ -19,7 +19,7 @@ void main()
     list temp = NULL;
     int action_key = 0;
 	do {
-	    printf("\nEnter 0: Create, 1: InsertAtBegin, 2: InsertAtEnd, 3: InsertMiddle, 4: DeleteAtBegin, 5: DeleteAtEnd, 6: DeleteMiddle, 7: Print, 8: Size, 9: Is Empty, 10: Exit \n");
+	    printf("\n0: Create \n1: InsertAtBegin\n2: InsertAtEnd\n3: InsertMiddle\n4: DeleteAtBegin\n5: DeleteAtEnd\n6: DeleteMiddle\n7: Print\n8: Size\n9: Is Empty\n10: Exit \n");
 		scanf("%d", &action_key);
 		switch(action_key){
 		    case 0:
@@ -32,7 +32,7 @@ void main()
 				insert_at_end();
 				break;
 			case 3:
-				//insert_middle();
+				insert_middle();
 				break;
 			case 4:
 				//delete_at_begin();
@@ -52,15 +52,10 @@ void main()
 			case 9:
 			    //is_empty();
 				break;
-			case 10:
-				break;
 			default:
 				break;
 		}
-	} while(action_key <= 10);
-	
-
-	
+	} while(action_key <= 9);
 	getch();
 }
 
@@ -72,7 +67,7 @@ int create(){
 	for(counter = 0; counter < how_many_numbers; counter++)
 	{
 		printf("\nEnter a number: \n");
-		temp = (list) malloc(sizeof(node));
+		temp = (list) calloc(1, sizeof(node));
 		scanf("%d", &data_number);
 		temp->data = data_number;
 		temp->next = NULL;
@@ -98,7 +93,7 @@ int insert_at_begin(){
     int data_number = 0;
 	list temp;
 	printf("\nEnter a number: \n");
-	temp = (list) malloc(sizeof(node));
+	temp = (list) calloc(1, sizeof(node));
 	scanf("%d", &data_number);
 	temp->data = data_number;
 	temp->next = head;
@@ -114,13 +109,42 @@ int insert_at_end(){
 	int data_number = 0;
 	list temp;
 	printf("\nEnter a number: \n");
-	temp = (list) malloc(sizeof(node));
+	temp = (list) calloc(1, sizeof(node));
 	scanf("%d", &data_number);
 	temp->data = data_number;
 	temp->next = NULL;
 	temp->prev = current;
 	current->next = temp;
     current = temp;	
+	print();
+	//print_reverse();
+	return 0;
+}
+
+int insert_middle(){
+	int number = 0, counter = 0, position = 0;
+	list iterator = NULL, temp = NULL, previous_node = NULL;
+	iterator = head;
+	previous_node = head;
+	printf("\nEnter position: \n");
+	scanf("%d", &position);
+	printf("\nEnter number to be inserted:\n");
+	scanf("%d", &number);
+	
+	while(iterator != NULL){
+		if(counter == position){
+		    temp = (list) calloc(1, sizeof(node));
+			temp->data = number;
+			previous_node->next = temp;
+			iterator->prev = temp;
+			temp->prev = previous_node;
+			temp->next = iterator;
+			break;
+		}
+		previous_node = iterator;
+		iterator = iterator->next;
+		counter++;
+	}
 	print();
 	print_reverse();
 	return 0;
