@@ -35,10 +35,10 @@ void main()
 				insert_middle();
 				break;
 			case 4:
-				//delete_at_begin();
+				delete_at_begin();
 			    break;
 			case 5:
-				//delete_at_end();
+				delete_at_end();
 			    break;
 			case 6:	
 			    //delete_middle();
@@ -145,6 +145,28 @@ int insert_middle(){
 		iterator = iterator->next;
 		counter++;
 	}
+	print();
+	print_reverse();
+	return 0;
+}
+
+int delete_at_begin(){
+	list temp_node = NULL;
+	temp_node = head->next;
+	head = NULL;
+	head = temp_node;
+	head->prev = NULL;
+	print();
+	print_reverse();
+	return 0;
+}
+
+int delete_at_end(){
+	list temp_node = NULL;
+	temp_node = current->prev;
+	current = NULL;
+	current = temp_node;
+	current->next = NULL;
 	print();
 	print_reverse();
 	return 0;
